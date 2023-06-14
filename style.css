@@ -42,6 +42,8 @@ body {
     transition: .3s;
 }
 
+
+
 /*JS code van rá írva*/
 .header.sticky {
     background: var(--second-bg-color)
@@ -516,7 +518,6 @@ span {
         bottom: 0px;
     }
 }
-
 /*skillek*/
 .skills {
     min-height: auto;
@@ -689,8 +690,8 @@ span {
     transition: .5s;
 }
 
-.contact form .input-box input:focus ~ .focus,
-.contact form .input-box input:valid ~ .focus {
+.contact form .input-box input:focus~.focus,
+.contact form .input-box input:valid~.focus {
     width: 100%;
 }
 
@@ -767,7 +768,7 @@ span {
 .footer {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     padding: 2rem 9%;
     background: var(--second-bg-color);
@@ -775,13 +776,14 @@ span {
 
 .footer-text p {
     font-size: 1.6rem;
+    margin: 0;
+    margin-bottom: 10px;
 }
 
 .footer .footer-text:nth-child(2) {
     position: relative;
     left: -150px;
 }
-
 
 .footer-iconTop a {
     position: relative;
@@ -821,6 +823,19 @@ span {
 
 .footer-iconTop a:hover i {
     color: var(--main-color);
+}
+
+/*Footer rész telefon nézetben*/
+@media only screen and (max-width: 767px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-text,
+    .footer-iconTop {
+        margin-top: 10px;
+    }
 }
 
 @media (max-width:1200px) {
@@ -897,5 +912,54 @@ span {
 @keyframes aboutSpinner {
     100% {
         transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/*Cookiek*/
+#cookie-banner {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    display: none;
+    height: 50px;
+    z-index: 2;
+}
+
+#cookie-banner p {
+    margin: 0;
+    color: black;
+    font-weight: bold;
+    display: inline;
+    font-size: 25px;
+}
+
+#cookie-accept-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    right: 300px;
+
+}
+
+@media only screen and (max-width: 767px) {
+    #cookie-banner p {
+        font-size: 10px;
+        padding: 0px;
+    }
+
+    #cookie-accept-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+        right: 20px;
     }
 }
