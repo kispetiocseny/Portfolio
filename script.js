@@ -22,7 +22,7 @@ form.addEventListener('submit', (event) => {
 
   // Név ellenőrzése
   if (!nameRegex.test(fullNameInput.value)) {
-   alert("Kérem adja meg a helyes teljes nevét!");
+    alert("Kérem adja meg helyesen a teljes nevét!");
     return;
   }
 
@@ -49,9 +49,22 @@ form.addEventListener('submit', (event) => {
     alert("Kérem írjon üzenetet!");
     return;
   }
-  alert("Sikeres üzenet küldés!")
-});
 
+  // CAPTCHA ellenőrzése
+  var userInput = document.getElementById("captcha-input").value;
+  var captchaNumber = parseInt(document.getElementById("captcha").textContent);
+
+  if (parseInt(userInput) === captchaNumber) {
+    // Ha a CAPTCHA helyes, elküldjük az űrlapot
+    alert("Sikeres üzenet küldés!");
+    myForm.submit();
+  } else {
+    // Ha a CAPTCHA helytelen, hibaüzenetet jelenítünk meg
+    alert("Kérlek, add meg a helyes választ a CAPTCHA-hoz!");
+    // Új CAPTCHA generálása
+    generateCaptcha();
+  }
+});
 
 // Ellenőrizzük, hogy a cookie-t már elfogadták-e
 if (!getCookie('cookie_accepted')) {
@@ -109,3 +122,34 @@ function setArrowPosition() {
 
 window.addEventListener('resize', setArrowPosition);
 setArrowPosition();
+
+// CAPTCHA generálása és megjelenítése
+function generateCaptcha() {
+  var captchaNumber = Math.floor(Math.random() * 100) + 1;
+  var captchaElement = document.getElementById("captcha");
+  captchaElement.textContent = captchaNumber;
+  return captchaNumber;
+}
+
+// Ellenőrzés az űrlap elküldésekor
+var myForm = document.querySelector("form");
+myForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  // CAPTCHA ellenőrzése
+  var userInput = document.getElementById("captcha-input").value;
+  var captchaNumber = parseInt(document.getElementById("captcha").textContent);
+
+  if (parseInt(userInput) === captchaNumber) {
+    // Ha a CAPTCHA helyes, elküldjük az űrlapot
+    myForm.submit();
+  } else {
+    // Ha a CAPTCHA helytelen, hibaüzenetet jelenítünk meg
+    alert("Kérlek, add meg a helyes választ a CAPTCHA-hoz!");
+    // Új CAPTCHA generálása
+    generateCaptcha();
+  }
+});
+
+// CAPTCHA generálása az oldal betöltésekor
+generateCaptcha();
