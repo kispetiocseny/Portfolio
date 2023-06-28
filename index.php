@@ -1,39 +1,35 @@
 <?php
-session_start();
-
-// CAPTCHA generálása és mentése a session változóba
-if (!isset($_SESSION['captcha'])) {
-    $num1 = rand(1, 10);
-    $num2 = rand(1, 10);
-    $_SESSION['captcha'] = $num1 + $num2;
-}
-
-// Űrlap beküldésének ellenőrzése
 if (isset($_POST['submit'])) {
-    // CAPTCHA ellenőrzése
-    if ($_POST['captcha'] == $_SESSION['captcha']) {
-        // A CAPTCHA helyes
-        $to = 'kispeter9315@gmail.com';
-        $subject = 'Új üzenet érkezett a weboldalról';
+    // Az űrlap adatainak begyűjtése
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $number = $_POST['number'];
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
 
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $number = $_POST['number'];
-        $message = $_POST['message'];
+    // Ellenőrzés: captcha
+    $captcha = $_POST['captcha'];
+    $captchaNumber = rand(1000, 9999); // Véletlenszerűen generált szám
 
-        $headers = "From: $name <$email>" . "\r\n";
-        $headers .= "Reply-To: $email" . "\r\n";
+    if ($captcha !== $captchaNumber) {
+        echo "A captcha száma helytelen.";
+        exit;
+    }
 
-        $mailBody = "Név: $name\nE-mail: $email\nTelefonszám: $number\n\nÜzenet:\n$message";
+    // E-mail küldése
+    $to = 'kispeter9315@gmail.com'; // Az e-mail címed, ahova az üzenetet küldeni szeretnéd
+    $subject = 'Új üzenet érkezett: ' . $subject;
+    $message = "Név: $name\n";
+    $message .= "E-mail: $email\n";
+    $message .= "Telefonszám: $number\n\n";
+    $message .= "Üzenet:\n$message";
 
-        if (mail($to, $subject, $mailBody, $headers)) {
-            echo "Az üzenet sikeresen elküldve!";
-        } else {
-            echo "Hiba történt az üzenet elküldése közben.";
-        }
+    $headers = "From: $name <$email>";
+
+    if (mail($to, $subject, $message, $headers)) {
+        echo "Az üzenetet elküldtük.";
     } else {
-        // A CAPTCHA helytelen
-        echo "Kérlek, add meg a helyes választ a CAPTCHA-hoz!";
+        echo "Hiba történt az üzenet küldése közben.";
     }
 }
 ?>

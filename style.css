@@ -762,6 +762,25 @@ span {
     cursor: pointer;
 }
 
+/*Chapta rész*/
+label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  #captcha {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  #captcha-input {
+    width: 200px;
+    height: 40px;
+    font-size: 18px;
+    padding: 5px;
+  }
 
 /*footer rész*/
 
